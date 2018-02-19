@@ -1,3 +1,4 @@
+#include <LowPower.h>
 #include <Arduino.h>
 #include <U8g2lib.h>
 #include <SimpleDHT.h>
@@ -31,6 +32,7 @@ void u8g2_prepare(void)
 
 void setup() 
 {
+  pinMode(LED_BUILTIN, OUTPUT);
   u8g2.begin();
   Serial.begin(9600);
   // Inizializza a zero l'array del grafico
@@ -42,6 +44,7 @@ void setup()
 
 void loop() 
 {
+  digitalWrite(LED_BUILTIN, HIGH);
   u8g2.clearBuffer();
   u8g2_prepare();
   // Mostra a video il Titolo
@@ -109,7 +112,11 @@ void loop()
 
   u8g2.sendBuffer();  
 
-  delay(5000);
   counter++;
   Serial.println(counter);
+
+  digitalWrite(LED_BUILTIN, LOW);
+
+  //delay(8000);
+  LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);
 }
